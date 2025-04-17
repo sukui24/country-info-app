@@ -13,6 +13,7 @@ export class CountriesRestApiController {
 
     router.get("/:countryCode/border", this.getBorderCountries);
     router.get("/:countryCode/population", this.getPopulationData);
+    router.get("/:countryCode/flag", this.getCountryFlag);
   }
 
   private getBorderCountries = async (req: Request, res: Response) => {
@@ -34,6 +35,21 @@ export class CountriesRestApiController {
   private getPopulationData = async (req: Request, res: Response) => {
     try {
       const result = await this.countriesService.getCountryPopulationData(
+        String(req.params.countryCode)
+      );
+      res.send(result);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        res.send({ error: err.message });
+      } else {
+        res.send({ error: "Unknown error" });
+      }
+    }
+  };
+
+  private getCountryFlag = async (req: Request, res: Response) => {
+    try {
+      const result = await this.countriesService.getCountryFlag(
         String(req.params.countryCode)
       );
       res.send(result);

@@ -2,10 +2,12 @@ import * as lookup from "country-code-lookup";
 
 import { env } from "../../config/env";
 import {
-  countriesPopulationSchema,
   countryBordersSchema,
+  countryFlagSchema,
+  countryPopulationSchema,
 } from "../../schemas/countries";
 import { CountryBordersDTO } from "../../types/dto/countries/CountryBordersDTO";
+import { CountryFlagDTO } from "../../types/dto/countries/CountryFlagDTO";
 import { CountryPopulationRequestPayload } from "../../types/dto/countries/CountryPopulationDTO";
 import { HttpService } from "../http/HttpService";
 
@@ -38,8 +40,22 @@ export class CountriesService {
         {
           iso3: requiredCountryData.iso3,
         },
-        countriesPopulationSchema
+        countryPopulationSchema
       );
+
+    return populationData.data;
+  }
+
+  public async getCountryFlag(countryCode: string) {
+    const url = this._getCountriesFlagUrl();
+
+    const populationData = await this.httpService.post<CountryFlagDTO>(
+      url,
+      {
+        iso2: countryCode,
+      },
+      countryFlagSchema
+    );
 
     return populationData.data;
   }
@@ -50,5 +66,9 @@ export class CountriesService {
 
   private _getCountriesPopulationUrl() {
     return `${env.countriesUrl}/countries/population`;
+  }
+
+  private _getCountriesFlagUrl() {
+    return `${env.countriesUrl}/countries/flag/images`;
   }
 }

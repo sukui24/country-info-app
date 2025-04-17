@@ -1,5 +1,6 @@
 import Joi from "joi";
 import { CountryBordersDTO } from "../types/dto/countries/CountryBordersDTO";
+import { CountryFlagDTO } from "../types/dto/countries/CountryFlagDTO";
 import {
   CountryPopulationDTO,
   CountryPopulationRequestPayload,
@@ -10,7 +11,7 @@ export const countryBordersSchema = Joi.object<CountryBordersDTO>({
   borders: Joi.array().items(Joi.object()).required(),
 });
 
-export const countriesPopulationSchema =
+export const countryPopulationSchema =
   Joi.object<CountryPopulationRequestPayload>({
     data: Joi.object<CountryPopulationDTO>({
       code: Joi.string().required(),
@@ -22,3 +23,9 @@ export const countriesPopulationSchema =
       ),
     }),
   });
+
+export const countryFlagSchema = Joi.object<CountryFlagDTO>({
+  data: Joi.object({
+    flag: Joi.string().required(),
+  }),
+});

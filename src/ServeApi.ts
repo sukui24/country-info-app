@@ -1,5 +1,6 @@
 import express, { type Express } from "express";
 import { CountriesRestApiController } from "./controllers/CountriesRestApiController";
+import { Database } from "./database/Database";
 import { ServerServices } from "./services/ServerServices";
 
 /**
@@ -9,6 +10,7 @@ export class ServeApi {
   constructor(
     private readonly app: Express,
     private readonly port: number,
+    private readonly db: Database,
     private readonly serverServices: ServerServices
   ) {
     //
@@ -16,6 +18,9 @@ export class ServeApi {
 
   public async init() {
     try {
+      // Initialize database connection
+      await this.db.init();
+
       // Middlewares
       this.app.use(express.json());
 
