@@ -1,0 +1,6 @@
+# Environment file should be ignored, but was required to commit in test task
+# .env
+
+node_modules/*
+dist/*
+.history/*
