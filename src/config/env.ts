@@ -11,6 +11,6 @@ export const env = {
     pass: process.env.DB_PASS,
     name: process.env.DB_NAME,
   },
-  nagerUrl: process.env.NAGER_BASE_URL,
+  nagerUrl: process.env.NAGER_API_URL,
   countriesUrl: process.env.COUNTRIES_NOW_API_URL,
 };

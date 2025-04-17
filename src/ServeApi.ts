@@ -1,5 +1,6 @@
 import express, { type Express } from "express";
 import { CountriesRestApiController } from "./controllers/CountriesRestApiController";
+import { ServerServices } from "./services/ServerServices";
 
 /**
  * Serves all api controllers.
@@ -7,7 +8,8 @@ import { CountriesRestApiController } from "./controllers/CountriesRestApiContro
 export class ServeApi {
   constructor(
     private readonly app: Express,
-    private readonly port: number
+    private readonly port: number,
+    private readonly serverServices: ServerServices
   ) {
     //
   }
@@ -22,6 +24,8 @@ export class ServeApi {
         console.log(`App listening on port: ${this.port}`);
       });
 
+      this.serverServices.init();
+
       // Attach API controllers
       this._attachControllers();
     } catch (err: unknown) {
@@ -30,6 +34,6 @@ export class ServeApi {
   }
 
   private _attachControllers() {
-    new CountriesRestApiController(this.app);
+    new CountriesRestApiController(this.app, this.serverServices.countries);
   }
 }
