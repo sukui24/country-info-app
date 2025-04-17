@@ -1,4 +1,5 @@
 import { Express, Request, Response, Router } from "express";
+import Joi from "joi";
 
 import { CountriesService } from "../services/countries/CountriesService";
 
@@ -18,8 +19,16 @@ export class CountriesRestApiController {
 
   private getBorderCountries = async (req: Request, res: Response) => {
     try {
+      const { error, value } = Joi.object<{ countryCode: string }>({
+        countryCode: Joi.string().length(2).required(),
+      }).validate(req.params);
+
+      if (error) {
+        throw new Error(`Validation error: ${error.message}`);
+      }
+
       const result = await this.countriesService.getCountryBorders(
-        String(req.params.countryCode)
+        value.countryCode
       );
       res.send(result);
     } catch (err: unknown) {
@@ -34,8 +43,16 @@ export class CountriesRestApiController {
 
   private getPopulationData = async (req: Request, res: Response) => {
     try {
+      const { error, value } = Joi.object<{ countryCode: string }>({
+        countryCode: Joi.string().length(2).required(),
+      }).validate(req.params);
+
+      if (error) {
+        throw new Error(`Validation error: ${error.message}`);
+      }
+
       const result = await this.countriesService.getCountryPopulationData(
-        String(req.params.countryCode)
+        value.countryCode
       );
       res.send(result);
     } catch (err: unknown) {
@@ -49,8 +66,16 @@ export class CountriesRestApiController {
 
   private getCountryFlag = async (req: Request, res: Response) => {
     try {
+      const { error, value } = Joi.object<{ countryCode: string }>({
+        countryCode: Joi.string().length(2).required(),
+      }).validate(req.params);
+
+      if (error) {
+        throw new Error(`Validation error: ${error.message}`);
+      }
+
       const result = await this.countriesService.getCountryFlag(
-        String(req.params.countryCode)
+        value.countryCode
       );
       res.send(result);
     } catch (err: unknown) {

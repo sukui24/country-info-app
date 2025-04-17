@@ -1,4 +1,5 @@
 import Joi from "joi";
+import { HolidayDTO } from "../types/dto/calendar/HolidayDTO";
 import { CountryBordersDTO } from "../types/dto/countries/CountryBordersDTO";
 import { CountryFlagDTO } from "../types/dto/countries/CountryFlagDTO";
 import {
@@ -29,3 +30,11 @@ export const countryFlagSchema = Joi.object<CountryFlagDTO>({
     flag: Joi.string().required(),
   }),
 });
+
+export const holidaysSchema = Joi.array<HolidayDTO>().items(
+  Joi.object<HolidayDTO>({
+    name: Joi.string().required(),
+    countryCode: Joi.string().required(),
+    date: Joi.string().required(),
+  })
+);

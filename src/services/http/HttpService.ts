@@ -6,7 +6,10 @@ export class HttpService {
     //
   }
 
-  public async get<T>(url: string, schema: Joi.ObjectSchema<T>): Promise<T> {
+  public async get<T>(
+    url: string,
+    schema: Joi.ObjectSchema<T> | Joi.ArraySchema<T>
+  ): Promise<T | T[]> {
     const result = await axios.get(url);
 
     const { error, value } = schema.validate(result.data, {
